@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhanu Kumar &times; TRG Screen &middot; Proof of Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Epilogue:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --cream:   #f5f2ee;
+  --cream2:  #ede9e2;
+  --cream3:  #e2ddd5;
+  --cream4:  #d4cec5;
+  --white:   #faf9f7;
+  --ink:     #1a1714;
+  --ink2:    #3a3631;
+  --ink3:    #6b6560;
+  --ink4:    #9a9590;
+  --bdr:     rgba(26,23,20,0.10);
+  --bmd:     rgba(26,23,20,0.18);
+  --trg:     #0a3d62;
+  --trgmid:  #1a5c8e;
+  --trglite: #2980b9;
+  --trgdim:  rgba(10,61,98,0.08);
+  --trgfog:  rgba(10,61,98,0.15);
+  --trgtext: #0a3d62;
+  --red:     #b53a2f;
+  --reddim:  rgba(181,58,47,0.09);
+  --grn:     #1e6b4a;
+  --grndim:  rgba(30,107,74,0.09);
+  --amb:     #7c5a1c;
+  --ambdim:  rgba(124,90,28,0.09);
+}
+
+html{scroll-behavior:smooth;scroll-padding-top:64px;}
+body{
+  background:var(--cream);color:var(--ink);
+  font-family:'Epilogue',sans-serif;font-size:16px;
+  line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+
+/* READING BAR */
+.rbar{
+  position:fixed;top:0;left:0;height:3px;
+  background:var(--trg);z-index:500;transition:width 0.08s linear;width:0%;
+}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(245,242,238,0.96);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--bdr);padding:0 5vw;
+}
+.nav-i{
+  max-width:1160px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;gap:16px;flex-wrap:nowrap;
+}
+.nav-logo{
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+  color:var(--ink);letter-spacing:0.02em;white-space:nowrap;flex-shrink:0;
+}
+.nav-logo .x{color:var(--ink4);margin:0 6px;}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap;}
+.np{
+  font-size:11.5px;font-weight:500;padding:5px 14px;
+  border-radius:3px;border:1px solid var(--bdr);
+  color:var(--ink3);background:transparent;
+  text-decoration:none;transition:all 0.15s;white-space:nowrap;letter-spacing:0.01em;
+}
+.np:hover{border-color:var(--bmd);color:var(--ink);}
+.np.cta{background:var(--trg);border-color:var(--trg);color:#fff;}
+.np.cta:hover{background:var(--trgmid);border-color:var(--trgmid);}
+
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  cursor:pointer;background:none;border:none;padding:4px;flex-shrink:0;
+}
+.hamburger span{
+  display:block;width:22px;height:1.5px;
+  background:var(--ink);border-radius:2px;
+  transition:transform 0.3s,opacity 0.3s;
+}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+.mob-menu{
+  display:none;position:fixed;inset:0;top:60px;
+  background:var(--cream);z-index:190;
+  flex-direction:column;padding:32px 5vw;gap:0;
+  border-top:1px solid var(--bdr);
+}
+.mob-menu.open{display:flex;}
+.mob-menu a{
+  padding:18px 0;border-bottom:1px solid var(--bdr);
+  color:var(--ink);text-decoration:none;font-size:15px;font-weight:500;
+}
+.mob-menu .cta-mob{
+  margin-top:24px;border:none;
+  background:var(--trg);color:#fff;padding:14px 24px;
+  text-align:center;border-radius:3px;font-weight:600;
+}
+
+/* LAYOUT */
+.wrap{max-width:1160px;margin:0 auto;padding:0 5vw;}
+section{border-bottom:1px solid var(--bdr);padding:72px 0;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* COVER */
+.cover{
+  padding:80px 5vw 72px;
+  max-width:1160px;margin:0 auto;
+  border-bottom:1px solid var(--bdr);
+}
+.c-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;
+  color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;
+  margin-bottom:36px;display:flex;align-items:center;gap:10px;
+}
+.c-eyebrow::before{
+  content:'';display:block;width:32px;height:1px;background:var(--trg);
+}
+.c-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(40px,6vw,78px);
+  line-height:1.05;
+  font-weight:800;
+  color:var(--ink);
+  max-width:780px;
+  margin-bottom:28px;
+  letter-spacing:-0.02em;
+}
+.c-title .accent{color:var(--trg);}
+.c-title .ghost{
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--cream4);
+}
+.c-sub{
+  font-size:17px;line-height:1.75;color:var(--ink2);
+  max-width:640px;margin-bottom:48px;font-weight:300;
+}
+.c-sub strong{color:var(--ink);font-weight:600;}
+.c-divider{
+  width:100%;height:1px;background:var(--bdr);margin:48px 0;
+}
+.c-footer{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:32px;flex-wrap:wrap;
+}
+.c-info{
+  font-size:13px;color:var(--ink3);line-height:1.8;
+  font-family:'JetBrains Mono',monospace;
+}
+.c-info a{color:var(--ink3);text-decoration:none;}
+.c-info a:hover{color:var(--trg);}
+.c-toc{
+  display:flex;flex-direction:column;gap:8px;align-items:flex-end;
+}
+.toc-link{
+  font-size:12px;font-weight:500;color:var(--ink4);
+  text-decoration:none;letter-spacing:0.03em;
+  transition:color 0.15s;font-family:'JetBrains Mono',monospace;
+}
+.toc-link:hover{color:var(--trg);}
+
+/* SECTION HEADER */
+.sec-ey{
+  display:flex;align-items:baseline;gap:16px;margin-bottom:48px;
+  padding-bottom:20px;border-bottom:1px solid var(--bdr);
+}
+.sec-num{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--trg);font-weight:500;letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+.sec-nm{
+  font-family:'Playfair Display',serif;font-size:26px;
+  font-weight:700;color:var(--ink);letter-spacing:-0.01em;
+}
+
+/* AUDIT SHELL */
+.ashell{
+  background:var(--white);border:1px solid var(--bdr);
+  border-radius:4px;overflow:hidden;
+}
+.ahdr{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:24px 28px;
+  border-bottom:1px solid var(--bdr);flex-wrap:wrap;
+}
+.ahdr h3{
+  font-family:'Playfair Display',serif;font-size:18px;
+  font-weight:700;color:var(--ink);margin-bottom:2px;
+}
+.ahdr p{font-size:12px;color:var(--ink4);font-family:'JetBrains Mono',monospace;}
+.tabrow{display:flex;gap:6px;flex-wrap:wrap;}
+.tbtn{
+  font-size:11.5px;font-weight:500;
+  padding:6px 14px;border-radius:3px;
+  border:1px solid var(--bdr);background:transparent;
+  color:var(--ink3);cursor:pointer;transition:all 0.15s;
+  letter-spacing:0.01em;
+}
+.tbtn:hover{border-color:var(--bmd);color:var(--ink);}
+.tbtn.on{background:var(--trg);border-color:var(--trg);color:#fff;}
+
+.abody{padding:28px;}
+.apanel{display:none;}
+.apanel.on{display:block;}
+
+.cgrid{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;
+}
+.mbox{
+  padding:20px;border-radius:3px;border:1px solid var(--bdr);
+  font-size:14px;line-height:1.7;color:var(--ink2);
+}
+.mbox.before{background:var(--reddim);border-color:rgba(181,58,47,0.15);}
+.mbox.after{background:var(--trgdim);border-color:rgba(10,61,98,0.15);}
+.mbox-lbl{
+  font-size:10.5px;font-weight:600;letter-spacing:0.07em;
+  text-transform:uppercase;margin-bottom:10px;
+  font-family:'JetBrains Mono',monospace;
+}
+.mbox.before .mbox-lbl{color:var(--red);}
+.mbox.after .mbox-lbl{color:var(--trg);}
+.insight{
+  padding:18px;background:var(--cream2);border-radius:3px;
+  font-size:14px;line-height:1.75;color:var(--ink2);
+  border-left:3px solid var(--trg);
+}
+.insight strong{color:var(--ink);}
+
+/* GTM BRIEF */
+.gshell{
+  background:var(--white);border:1px solid var(--bdr);
+  border-radius:4px;overflow:hidden;
+}
+.ghdr{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:24px 28px;
+  border-bottom:1px solid var(--bdr);flex-wrap:wrap;
+}
+.ghdr h3{
+  font-family:'Playfair Display',serif;font-size:18px;
+  font-weight:700;color:var(--ink);margin-bottom:2px;
+}
+.ghdr p{font-size:12px;color:var(--ink4);font-family:'JetBrains Mono',monospace;}
+.fbadge{
+  font-size:10.5px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;
+  padding:5px 12px;border-radius:3px;
+  background:var(--trgdim);color:var(--trg);
+  border:1px solid rgba(10,61,98,0.18);white-space:nowrap;
+  font-family:'JetBrains Mono',monospace;
+}
+.fbadge.amber{background:var(--ambdim);color:var(--amb);border-color:rgba(124,90,28,0.2);}
+.gbody{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+}
+.gcell{
+  padding:24px 28px;border-bottom:1px solid var(--bdr);
+  border-right:1px solid var(--bdr);
+}
+.gcell:nth-child(2n){border-right:none;}
+.gcell.full{grid-column:1/-1;border-right:none;}
+.gcell:last-child{border-bottom:none;}
+.gcell h4{
+  font-size:12px;font-weight:600;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--trg);margin-bottom:12px;
+  font-family:'JetBrains Mono',monospace;
+}
+.gcell p{font-size:14px;line-height:1.75;color:var(--ink2);margin-bottom:10px;}
+.gcell p:last-child{margin-bottom:0;}
+.gcell strong{color:var(--ink);}
+
+/* TIMELINE */
+.tl{display:flex;flex-direction:column;gap:0;}
+.tlrow{
+  display:grid;grid-template-columns:100px 1fr;
+  gap:0;padding:0;
+}
+.tlwk{
+  padding:16px 20px 16px 0;
+  font-size:11px;font-weight:600;color:var(--trg);
+  letter-spacing:0.06em;text-transform:uppercase;
+  font-family:'JetBrains Mono',monospace;
+  border-right:1px solid var(--bdr);
+  display:flex;align-items:flex-start;padding-top:18px;
+}
+.tltxt{
+  font-size:14px;line-height:1.75;color:var(--ink2);
+  padding:16px 0 16px 24px;border-bottom:1px solid var(--bdr);
+}
+.tlrow:last-child .tltxt{border-bottom:none;}
+.tltxt strong{color:var(--ink);}
+
+/* KPIS */
+.krow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;}
+.kpi{
+  padding:20px;background:var(--cream2);
+  border-radius:3px;border:1px solid var(--bdr);
+}
+.kpi-l{font-size:10.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--ink4);margin-bottom:8px;font-family:'JetBrains Mono',monospace;}
+.kpi-v{font-family:'Playfair Display',serif;font-size:32px;font-weight:800;
+  color:var(--trg);line-height:1;margin-bottom:8px;}
+.kpi-d{font-size:12px;color:var(--ink3);line-height:1.5;}
+
+/* PERSONA SECTION */
+.persona-shell{
+  background:var(--white);border:1px solid var(--bdr);border-radius:4px;overflow:hidden;
+}
+.ptab-row{
+  display:flex;border-bottom:1px solid var(--bdr);flex-wrap:wrap;
+}
+.ptab{
+  padding:16px 24px;font-size:13px;font-weight:500;
+  border:none;background:transparent;cursor:pointer;
+  color:var(--ink3);border-bottom:2px solid transparent;
+  margin-bottom:-1px;transition:all 0.15s;text-align:left;
+  letter-spacing:0.01em;
+}
+.ptab:hover{color:var(--ink);}
+.ptab.on{color:var(--trg);border-bottom-color:var(--trg);}
+.p-prompt{
+  padding:48px 28px;text-align:center;color:var(--ink4);
+  font-size:14px;font-style:italic;font-family:'Playfair Display',serif;
+}
+.p-output{
+  display:none;padding:28px;
+  animation:fadeup 0.3s ease;
+}
+.p-output.on{display:block;}
+@keyframes fadeup{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.p-tag{
+  font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--trg);margin-bottom:16px;font-family:'JetBrains Mono',monospace;
+}
+.p-hed{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+  color:var(--ink);line-height:1.3;margin-bottom:16px;
+  letter-spacing:-0.01em;
+}
+.p-body{font-size:14px;line-height:1.8;color:var(--ink2);}
+.p-body strong{color:var(--ink);}
+
+/* COPY SECTION */
+.cex-shell{
+  background:var(--white);border:1px solid var(--bdr);
+  border-radius:4px;overflow:hidden;margin-bottom:16px;
+}
+.cex-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:16px 24px;
+  border-bottom:1px solid var(--bdr);flex-wrap:wrap;
+}
+.cex-ch{
+  font-size:11px;font-weight:600;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--ink4);
+  font-family:'JetBrains Mono',monospace;
+}
+.cbadge{
+  font-size:10px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;
+  padding:4px 10px;border-radius:3px;white-space:nowrap;
+  font-family:'JetBrains Mono',monospace;
+}
+.cbadge.hero{background:var(--trgdim);color:var(--trg);border:1px solid rgba(10,61,98,0.18);}
+.cbadge.sales{background:var(--grndim);color:var(--grn);border:1px solid rgba(30,107,74,0.2);}
+.cbadge.email{background:var(--ambdim);color:var(--amb);border:1px solid rgba(124,90,28,0.2);}
+.cex-body{padding:24px;}
+.ched{
+  font-family:'Playfair Display',serif;font-size:18px;font-weight:700;
+  color:var(--ink);margin-bottom:12px;line-height:1.35;
+  letter-spacing:-0.01em;
+}
+.ctxt{font-size:14px;line-height:1.8;color:var(--ink2);margin-bottom:16px;}
+.cwhy{
+  font-size:13px;line-height:1.7;color:var(--ink3);
+  padding:16px;background:var(--cream2);border-radius:3px;
+  border-left:3px solid var(--cream4);
+}
+.cwhy strong{color:var(--ink2);}
+
+/* OTHER WORK */
+.wgrid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+}
+.wcard{
+  background:var(--white);border:1px solid var(--bdr);
+  border-radius:4px;padding:24px;text-decoration:none;
+  transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;
+  display:flex;flex-direction:column;gap:10px;
+}
+.wcard:hover{
+  border-color:var(--trg);
+  transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(10,61,98,0.10);
+}
+.wcard-tag{
+  font-size:10.5px;font-weight:600;letter-spacing:0.07em;
+  text-transform:uppercase;color:var(--trg);
+  font-family:'JetBrains Mono',monospace;
+}
+.wcard h4{
+  font-family:'Playfair Display',serif;font-size:16px;font-weight:700;
+  color:var(--ink);line-height:1.3;
+}
+.wcard p{font-size:13px;line-height:1.65;color:var(--ink3);flex:1;}
+.warr{font-size:16px;color:var(--ink4);align-self:flex-end;
+  transition:transform 0.2s,color 0.2s;}
+.wcard:hover .warr{transform:translateX(4px);color:var(--trg);}
+
+/* SIGNATURE */
+.sig{
+  padding:72px 0;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:32px;flex-wrap:wrap;
+}
+.sig-name{
+  font-family:'Playfair Display',serif;font-size:36px;font-weight:800;
+  color:var(--ink);letter-spacing:-0.02em;margin-bottom:8px;
+}
+.sig-name span{color:var(--trg);}
+.sig-det{font-size:13px;color:var(--ink3);line-height:1.8;font-family:'JetBrains Mono',monospace;}
+.sig-det a{color:var(--ink3);text-decoration:none;}
+.sig-det a:hover{color:var(--trg);}
+.sig-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.sbtn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 22px;border-radius:3px;font-size:14px;font-weight:600;
+  text-decoration:none;transition:all 0.15s;
+}
+.sbtn.pri{background:var(--trg);color:#fff;border:1px solid var(--trg);}
+.sbtn.pri:hover{background:var(--trgmid);}
+.sbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--bmd);}
+.sbtn.ghost:hover{border-color:var(--trg);color:var(--trg);}
+
+/* COMPETITIVE TABLE */
+.ctable-wrap{overflow-x:auto;}
+.ctable{width:100%;border-collapse:collapse;font-size:13px;}
+.ctable th{
+  padding:12px 16px;text-align:left;
+  font-size:10.5px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;
+  color:var(--trg);border-bottom:2px solid var(--trg);
+  font-family:'JetBrains Mono',monospace;background:var(--cream2);
+}
+.ctable td{
+  padding:12px 16px;border-bottom:1px solid var(--bdr);
+  color:var(--ink2);vertical-align:top;line-height:1.5;
+}
+.ctable tr:last-child td{border-bottom:none;}
+.ctable tr:hover td{background:var(--cream2);}
+.ctable .highlight td{background:var(--trgdim);}
+.ctable .highlight td:first-child{font-weight:600;color:var(--trg);}
+.tick{color:var(--grn);font-weight:600;}
+.cross{color:var(--red);}
+.partial{color:var(--amb);}
+
+/* STAT ROW */
+.stat-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border:1px solid var(--bdr);border-radius:4px;
+  background:var(--white);overflow:hidden;margin-bottom:32px;
+}
+.stat-cell{
+  padding:24px;border-right:1px solid var(--bdr);
+}
+.stat-cell:last-child{border-right:none;}
+.stat-num{
+  font-family:'Playfair Display',serif;font-size:30px;font-weight:800;
+  color:var(--trg);margin-bottom:4px;
+}
+.stat-lbl{font-size:12px;color:var(--ink3);line-height:1.4;}
+.stat-src{font-size:10px;color:var(--ink4);margin-top:4px;font-family:'JetBrains Mono',monospace;}
+
+/* TOGGLE INSIGHT */
+.ti-wrap{
+  border:1px solid var(--bdr);border-radius:4px;background:var(--white);overflow:hidden;
+  margin-bottom:8px;
+}
+.ti-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;cursor:pointer;transition:background 0.15s;
+  gap:16px;
+}
+.ti-hdr:hover{background:var(--cream2);}
+.ti-q{font-size:14px;font-weight:600;color:var(--ink);}
+.ti-icon{
+  font-size:18px;color:var(--ink4);flex-shrink:0;
+  transition:transform 0.25s;font-family:monospace;
+}
+.ti-wrap.open .ti-icon{transform:rotate(45deg);}
+.ti-body{
+  display:none;padding:0 20px 20px;
+  font-size:14px;line-height:1.75;color:var(--ink2);
+  border-top:1px solid var(--bdr);padding-top:16px;
+}
+.ti-body strong{color:var(--ink);}
+.ti-wrap.open .ti-body{display:block;}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .c-title{font-size:clamp(34px,8vw,56px);}
+  .cgrid{grid-template-columns:1fr;}
+  .gbody{grid-template-columns:1fr;}
+  .gcell{border-right:none;}
+  .krow{grid-template-columns:1fr 1fr;}
+  .wgrid{grid-template-columns:1fr 1fr;}
+  .stat-row{grid-template-columns:1fr 1fr;}
+  .stat-cell:nth-child(2){border-right:none;}
+  .stat-cell:nth-child(3){border-right:1px solid var(--bdr);}
+  .sig{flex-direction:column;align-items:flex-start;}
+  .ahdr{flex-direction:column;align-items:flex-start;}
+  .c-footer{flex-direction:column;}
+  .c-toc{align-items:flex-start;}
+}
+@media(max-width:560px){
+  .krow{grid-template-columns:1fr;}
+  .wgrid{grid-template-columns:1fr;}
+  .stat-row{grid-template-columns:1fr 1fr;}
+  .tlrow{grid-template-columns:80px 1fr;}
+  section{padding:52px 0;}
+  .cover{padding:52px 5vw 52px;}
+  .ptab{padding:14px 16px;font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<div class="rbar" id="rbar"></div>
+
+<nav class="nav">
+  <div class="nav-i">
+    <div class="nav-logo">Bhanu Kumar<span class="x">&#215;</span>TRG Screen</div>
+    <div class="nav-links">
+      <a href="#audit"    class="np">Messaging Audit</a>
+      <a href="#gtm"      class="np">GTM Brief</a>
+      <a href="#personas" class="np">Buyer Map</a>
+      <a href="#copy"     class="np">Copy</a>
+      <a href="#work"     class="np">Other Work</a>
+      <a href="mailto:bhanukumar0902@gmail.com" class="np cta">Say hello</a>
+    </div>
+    <button class="hamburger" id="hbg" onclick="toggleMob()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mob">
+  <a href="#audit"    onclick="closeMob()">Messaging Audit</a>
+  <a href="#gtm"      onclick="closeMob()">GTM Brief</a>
+  <a href="#personas" onclick="closeMob()">Buyer Map</a>
+  <a href="#copy"     onclick="closeMob()">Copy</a>
+  <a href="#work"     onclick="closeMob()">Other Work</a>
+  <a href="mailto:bhanukumar0902@gmail.com" class="cta-mob">Say hello &#8594;</a>
+</div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="c-eyebrow reveal">Proof of Work &nbsp;/&nbsp; TRG Screen &nbsp;/&nbsp; Product Marketing Manager</div>
+
+  <h1 class="c-title reveal">
+    TRG Screen manages<br>
+    <span class="accent">$9.6 billion</span> in<br>
+    subscription spend.<br>
+    <span class="ghost">Who's telling that story?</span>
+  </h1>
+
+  <p class="c-sub reveal">
+    The product is there. The track record is there. The <strong>CODiE award-winning</strong> Optimize platform is genuinely best-in-class. But the gap between what TRG Screen has built and what a Head of Market Data at a tier-2 bank actually understands about it, that gap is a <strong>product marketing problem.</strong> This page is my take on it.
+  </p>
+
+  <div class="c-divider reveal"></div>
+
+  <div class="c-footer reveal">
+    <div class="c-info">
+      <strong style="color:var(--ink);">Bhanu Kumar</strong><br>
+      bhanukumar0902@gmail.com &nbsp;&#183;&nbsp;
+      <a href="https://linkedin.com/in/bhanuexcalibur" target="_blank" rel="noopener">linkedin.com/in/bhanuexcalibur</a><br>
+      Bengaluru, India
+    </div>
+    <div class="c-toc">
+      <a href="#audit"    class="toc-link">01 / Messaging Audit</a>
+      <a href="#gtm"      class="toc-link">02 / GTM Brief</a>
+      <a href="#personas" class="toc-link">03 / Buyer Map</a>
+      <a href="#copy"     class="toc-link">04 / Copy</a>
+      <a href="#work"     class="toc-link">05 / Other Work</a>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT STRIP -->
+<section style="padding:40px 0;background:var(--cream2);">
+  <div class="wrap">
+    <div class="stat-row reveal">
+      <div class="stat-cell">
+        <div class="stat-num">$9.6B</div>
+        <div class="stat-lbl">Subscription spend managed across TRG Screen's client base</div>
+        <div class="stat-src">Source: TRG Screen / LinkedIn</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">750+</div>
+        <div class="stat-lbl">Financial institutions, law firms and enterprises on the platform</div>
+        <div class="stat-src">Source: TRG Screen / LinkedIn</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">$44.3B</div>
+        <div class="stat-lbl">Global market data spend in 2024, up 6.4% year-on-year</div>
+        <div class="stat-src">Source: Burton-Taylor, 2024</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">2x</div>
+        <div class="stat-lbl">CODiE award winner for Best Financial &amp; Market Data Solution (2023 + 2024)</div>
+        <div class="stat-src">Source: SIIA CODiE Awards</div>
+      </div>
+    </div>
+    <p class="reveal" style="font-size:13px;color:var(--ink4);text-align:right;font-family:'JetBrains Mono',monospace;">
+      Note: stats above are from verified public sources. Anything estimated is labelled as such in the body of the page.
+    </p>
+  </div>
+</section>
+
+
+<!-- 01 MESSAGING AUDIT -->
+<section id="audit">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-num">Part 01</span>
+      <span class="sec-nm">Messaging Audit</span>
+    </div>
+
+    <div class="ashell reveal">
+      <div class="ahdr">
+        <div>
+          <h3>Where TRG Screen's messaging leaves value on the table</h3>
+          <p>Audit across homepage, product pages, and category positioning &nbsp;&#183;&nbsp; May 2026</p>
+        </div>
+        <div class="tabrow">
+          <button class="tbtn on" onclick="swTab('homepage',this)">Homepage</button>
+          <button class="tbtn"    onclick="swTab('optimize',this)">Optimize Spend</button>
+          <button class="tbtn"    onclick="swTab('managed',this)">Managed Services</button>
+        </div>
+      </div>
+      <div class="abody">
+
+        <!-- PANEL 1: HOMEPAGE -->
+        <div class="apanel on" id="ap-homepage">
+          <div class="cgrid">
+            <div class="mbox before">
+              <div class="mbox-lbl">Current positioning territory</div>
+              <p>"The leading provider of market data and subscription management technology and automation solutions, tailored to the unique needs of financial institutions and legal firms."</p>
+            </div>
+            <div class="mbox after">
+              <div class="mbox-lbl">What it could say instead</div>
+              <p>"750 financial institutions and law firms use TRG Screen to manage <strong>$9.6 billion</strong> in subscription spend. Not because it's the only tool. Because after one audit, they couldn't go back to spreadsheets."</p>
+            </div>
+          </div>
+          <div class="insight">
+            <strong>The problem:</strong> The current hero is a category description, not a conviction. "Market data and subscription management technology" tells a buyer what TRG Screen does. It doesn't tell them why they should care right now, or what losing another quarter without it actually costs. The $9.6B number is a genuinely extraordinary proof point sitting in TRG Screen's LinkedIn bio, not on the homepage. For an enterprise with $25M-plus in average subscription spend, the first question isn't "what does this product do?" It's "what does it cost me to keep doing things the way I'm doing them?" The current homepage doesn't answer that question. <strong>The entry point should be the pain, not the product category.</strong>
+          </div>
+        </div>
+
+        <!-- PANEL 2: OPTIMIZE -->
+        <div class="apanel" id="ap-optimize">
+          <div class="cgrid">
+            <div class="mbox before">
+              <div class="mbox-lbl">Current product narrative (Optimize Spend)</div>
+              <p>"Optimize Spend 2.0 builds upon its extensive abilities to empower accurate inventory management for current and future periods, and now also for historical periods."</p>
+            </div>
+            <div class="mbox after">
+              <div class="mbox-lbl">What it could say instead</div>
+              <p>"Most market data teams don't know exactly what they're paying for today, let alone what they paid two years ago. Optimize Spend 2.0 fixes that: <strong>inventory management across past, present, and future periods</strong>, with bulk reconciliation built in."</p>
+            </div>
+          </div>
+          <div class="insight">
+            <strong>The problem:</strong> Optimize Spend won the CODiE award twice in a row. That's not a footnote, that's a headline. The product page buries the "best-in-class" signal in the middle of a capabilities list. More importantly, the 2.0 update adds historical period management, which solves a genuinely painful problem: finance teams during audit season who can't reconstruct what they were paying vendors 18 months ago. That's a real scenario with real consequences. <strong>The copy should open with the problem scenario, not the product capability.</strong> "Reconstruct your entire subscription history, record by record" is a more motivating opening line than "multi-period reconciliation."
+          </div>
+        </div>
+
+        <!-- PANEL 3: MANAGED SERVICES -->
+        <div class="apanel" id="ap-managed">
+          <div class="cgrid">
+            <div class="mbox before">
+              <div class="mbox-lbl">Current managed services framing</div>
+              <p>Managed services described primarily as invoice processing, inventory management, order fulfillment, and exchange declarations, positioned as operational support.</p>
+            </div>
+            <div class="mbox after">
+              <div class="mbox-lbl">What it could say instead</div>
+              <p>"Your market data team wasn't hired to process invoices. Between admin and the work that actually matters, <strong>the admin is winning.</strong> TRG Screen's managed services handle the operations. Your team gets back to advising on sourcing, challenging demand, and controlling spend before it happens."</p>
+            </div>
+          </div>
+          <div class="insight">
+            <strong>The problem:</strong> The S4 Market Data partnership (announced November 2025) signals that TRG Screen is moving managed services upstream, from back-office admin to strategic advisory. But the current messaging is still operational. It describes what the service does, not what it gives back. "Invoice processing and order fulfillment" sounds like a cost center. "Getting your team out of the processing loop so they can prevent spend rather than reconcile it" sounds like a business case. <strong>The framing needs to move from service features to the professional identity of the person buying it.</strong> A market data director doesn't want to be sold admin support. They want to be sold the version of their job that is actually strategic.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 02 GTM BRIEF -->
+<section id="gtm">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-num">Part 02</span>
+      <span class="sec-nm">GTM Brief</span>
+    </div>
+
+    <!-- GTM 1: Crizit Acquisition -->
+    <div class="gshell reveal">
+      <div class="ghdr">
+        <div>
+          <h3>GTM Brief &nbsp;&#183;&nbsp; Crizit Acquisition Narrative</h3>
+          <p>Acquired October 2025 &nbsp;&#183;&nbsp; Real-time reference data optimization and intelligent data caching</p>
+        </div>
+        <span class="fbadge">Acquisition GTM</span>
+      </div>
+      <div class="gbody">
+        <div class="gcell">
+          <h4>The Context</h4>
+          <p>TRG Screen acquired Crizit in October 2025, a New York-based fintech that does reference data optimization and intelligent data caching for financial institutions. On paper, this extends the platform's capabilities. <strong>In practice, it needs a story that current clients and prospects can actually use.</strong></p>
+          <p>Right now, "we acquired a reference data optimization company" is a press release. The GTM question is: what does it mean for the buyer who's already paying $500K/year in Bloomberg and Refinitiv fees?</p>
+        </div>
+        <div class="gcell">
+          <h4>The Opportunity</h4>
+          <p>Reference data is one of the least-scrutinized line items in a financial institution's market data budget, partly because it's complex and partly because nobody owns it clearly. Crizit's technology can identify redundant data pulls, stale cache requests, and over-provisioned feeds in real time.</p>
+          <p><strong>The GTM framing isn't "we added a feature." It's "we can now show you where your data spend is leaking."</strong> That's a different conversation with a CTO and a Head of Market Data at the same time.</p>
+        </div>
+        <div class="gcell">
+          <h4>Target Audiences</h4>
+          <p><strong>Primary:</strong> Market data managers at mid-to-large banks who already use Optimize Spend but haven't solved the reference data piece yet. This is an upsell story, not a new-logo story.</p>
+          <p><strong>Secondary:</strong> CTOs and heads of data infrastructure at institutions that haven't engaged TRG Screen before. Crizit is a technology conversation; it opens a door that's currently closed.</p>
+        </div>
+        <div class="gcell">
+          <h4>Core Claim</h4>
+          <p>The line to test: <strong>"You know what you're spending on market data. Do you know what you're wasting on it?"</strong></p>
+          <p>Secondary angle: The biggest banks spend upwards of $500 million a year on data. A meaningful portion of that goes to feeds nobody is actively using. Crizit identifies those feeds in real time, before the next invoice arrives.</p>
+        </div>
+        <div class="gcell full">
+          <h4>30-60-90 Day Launch Plan</h4>
+          <div class="tl">
+            <div class="tlrow">
+              <div class="tlwk">Day 1-30</div>
+              <div class="tltxt"><strong>Don't lead with the acquisition, lead with the problem.</strong> Pull three existing clients who've expressed frustration with reference data costs in Gong calls (or similar). Build one case study per client showing what unoptimized reference data was costing them before. Run these as a "State of Reference Data Spend" mini-report shared exclusively with current clients first. No public announcement yet. Create the proof before the pitch.</div>
+            </div>
+            <div class="tlrow">
+              <div class="tlwk">Day 31-60</div>
+              <div class="tltxt"><strong>Equip sales with two things: a problem statement and a number.</strong> The problem statement: "Most banks have optimized their terminal spend. Almost none have optimized their reference data consumption." The number: an estimate (clearly labelled as such) of how much a typical institution with $25M in market data spend might be over-consuming on reference data feeds, based on Crizit's benchmarks. Sales doesn't need a product deck yet. They need one slide that starts a conversation. Build that slide and run an internal enablement session before any external push.</div>
+            </div>
+            <div class="tlrow">
+              <div class="tlwk">Day 61-90</div>
+              <div class="tltxt"><strong>Go public with the narrative, not the product.</strong> Publish a thought leadership piece on "The Reference Data Blind Spot" in partnership with a credible market data publication. The piece should make the case that reference data optimization is the next frontier of market data cost management, cite the three case studies from Day 1-30, and mention Crizit by name only in the final third. Let the problem do the selling, not the product announcement. Follow with a webinar where a Crizit founder walks through a live optimization scenario.</div>
+            </div>
+          </div>
+        </div>
+        <div class="gcell full" style="border-bottom:none;">
+          <h4>Success Metrics</h4>
+          <div class="krow">
+            <div class="kpi">
+              <div class="kpi-l">Upsell Pipeline</div>
+              <div class="kpi-v">20+</div>
+              <div class="kpi-d">Existing clients entering a Crizit conversation within 90 days of launch</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-l">New Logo Opens</div>
+              <div class="kpi-v">15+</div>
+              <div class="kpi-d">New prospects engaging via the "Reference Data Blind Spot" content campaign</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-l">Sales Confidence</div>
+              <div class="kpi-v">80%+</div>
+              <div class="kpi-d">AEs able to articulate the Crizit value prop without the product deck after enablement session</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GTM 2: Optimize Insights expansion -->
+    <div class="gshell reveal" style="margin-top:16px;">
+      <div class="ghdr">
+        <div>
+          <h3>GTM Brief &nbsp;&#183;&nbsp; Optimize Insights Expansion</h3>
+          <p>Ongoing 2025-2026 &nbsp;&#183;&nbsp; Transitioning from spend management to actionable intelligence</p>
+        </div>
+        <span class="fbadge amber">Platform Expansion</span>
+      </div>
+      <div class="gbody">
+        <div class="gcell">
+          <h4>The Shift</h4>
+          <p>TRG Screen's Chief Product Officer described this publicly as a "paradigm shift": moving from helping firms know what they're spending to helping them make better decisions because of that data. Optimize Insights is the product embodiment of that shift.</p>
+          <p><strong>The messaging problem:</strong> "Insights" is what every SaaS company promises. TRG Screen needs to define what insights mean specifically in the market data context, or the word becomes wallpaper.</p>
+        </div>
+        <div class="gcell">
+          <h4>What "Insights" Actually Means Here</h4>
+          <p>For a Head of Market Data at a bank, an insight isn't a dashboard. It's the moment they walk into a vendor negotiation knowing they've consumed 40% less of a particular data feed than the contract allows, and they can prove it.</p>
+          <p><strong>The GTM brief for Optimize Insights should be built around three scenarios</strong> where having the data changes the outcome of a specific decision: a vendor renewal, a demand challenge, and a compliance audit. Each scenario is a content piece. Each content piece is a sales asset.</p>
+        </div>
+        <div class="gcell">
+          <h4>Audience Nuance</h4>
+          <p><strong>Market data managers:</strong> They want to be seen as strategic by their CFO. Insights give them the language to do that. The message: "Stop reporting what you spent. Start advising on what to spend."</p>
+          <p><strong>CFOs and Finance leads:</strong> They want a number they can act on, not a report they have to interpret. The message: "Here's exactly how much you could have saved in the last quarter if you'd known this before the renewal."</p>
+        </div>
+        <div class="gcell">
+          <h4>The Competitive Angle</h4>
+          <p>Competitors in this space sell spend visibility. TRG Screen is now selling the layer above that: spend intelligence. <strong>The difference in a vendor negotiation between knowing you spent $2M on Bloomberg and knowing you consumed 60% of a specific terminal's capacity is the difference between a conversation and a leverage point.</strong></p>
+          <p>That distinction needs to be the lead, not a footnote in the feature list.</p>
+        </div>
+        <div class="gcell full" style="border-bottom:none;">
+          <h4>Competitive Positioning Snapshot</h4>
+          <div class="ctable-wrap">
+            <table class="ctable">
+              <thead>
+                <tr>
+                  <th>Capability</th>
+                  <th>TRG Screen</th>
+                  <th>Point-solution vendors</th>
+                  <th>Internal spreadsheets</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="highlight">
+                  <td>Spend + Usage in one platform</td>
+                  <td class="tick">Yes</td>
+                  <td class="partial">Partial</td>
+                  <td class="cross">No</td>
+                </tr>
+                <tr>
+                  <td>Historical period reconciliation</td>
+                  <td class="tick">Yes (Optimize Spend 2.0)</td>
+                  <td class="cross">Rarely</td>
+                  <td class="partial">Manual only</td>
+                </tr>
+                <tr class="highlight">
+                  <td>Reference data optimization</td>
+                  <td class="tick">Yes (via Crizit)</td>
+                  <td class="cross">No</td>
+                  <td class="cross">No</td>
+                </tr>
+                <tr>
+                  <td>Managed services + strategic advisory</td>
+                  <td class="tick">Yes (with S4 partnership)</td>
+                  <td class="partial">Some</td>
+                  <td class="cross">No</td>
+                </tr>
+                <tr>
+                  <td>Exchange compliance reporting</td>
+                  <td class="tick">Yes</td>
+                  <td class="partial">Limited</td>
+                  <td class="cross">No</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:11px;color:var(--ink4);margin-top:10px;font-family:'JetBrains Mono',monospace;">
+            Note: "Point-solution vendors" row is a generalisation based on publicly available product information. Individual competitors will vary. Verify before using in sales materials.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- 03 BUYER MAP -->
+<section id="personas">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-num">Part 03</span>
+      <span class="sec-nm">Buyer Map</span>
+    </div>
+
+    <p class="reveal" style="font-size:15px;color:var(--ink2);max-width:640px;margin-bottom:32px;line-height:1.8;">
+      TRG Screen sells into complex buying committees. The same product lands very differently depending on whether you're talking to a market data director, a CFO, or a compliance officer. Select a buyer type to see how the message should shift.
+    </p>
+
+    <div class="persona-shell reveal">
+      <div class="ptab-row">
+        <button class="ptab on"  onclick="swPersona('datadir',this)">Head of Market Data</button>
+        <button class="ptab"     onclick="swPersona('cfo',this)">CFO / Finance Lead</button>
+        <button class="ptab"     onclick="swPersona('cto',this)">CTO / Data Infra</button>
+        <button class="ptab"     onclick="swPersona('compliance',this)">Compliance Officer</button>
+      </div>
+      <div class="p-prompt" id="p-prompt" style="display:none;">Select a buyer type above</div>
+      <div class="p-output on" id="p-output">
+        <div class="p-tag" id="p-tag">Buyer: Head of Market Data</div>
+        <div class="p-hed" id="p-hed">"You're expected to advise on sourcing, challenge demand, and prevent spend. That's impossible when you're still processing invoices."</div>
+        <div class="p-body" id="p-body">The Head of Market Data is under pressure from two directions at once. From their CFO, they're being asked to control costs on a budget that grows every year as data consumption increases. From their trading desks and research teams, they're being asked to provision more data faster and with less friction. The work that sits between those two pressures, invoice reconciliation, vendor management, exchange declarations, is real work that takes real time. <strong>TRG Screen's pitch to this person isn't "buy our software." It's "here's how you stop being the person who processes things and become the person who decides things."</strong> The managed services conversation fits here, but only once the platform conversation has established that TRG Screen already understands their specific spend landscape. Lead with the audit. The managed services upsell follows naturally.</div>
+      </div>
+    </div>
+
+    <!-- Objection handling toggle section -->
+    <div style="margin-top:32px;">
+      <h3 class="reveal" style="font-family:'Playfair Display',serif;font-size:20px;margin-bottom:20px;color:var(--ink);">Common objections &amp; how to handle them</h3>
+
+      <div class="ti-wrap reveal">
+        <div class="ti-hdr" onclick="toggleTi(this)">
+          <span class="ti-q">"We manage our market data spend in-house. We've got it under control."</span>
+          <span class="ti-icon">+</span>
+        </div>
+        <div class="ti-body">
+          This is the most common opening position and it almost never reflects reality fully. The right response isn't to challenge their confidence directly. It's to ask a specific question: "When you say in-house, what does your reconciliation process look like when you get an invoice that doesn't match what you've contracted?" Most teams have a manual process that works most of the time. TRG Screen's value is in the exceptions, and there are always exceptions. <strong>The follow-up isn't a product demo. It's a shared audit of one month's worth of invoices.</strong> Let the data make the case.
+        </div>
+      </div>
+
+      <div class="ti-wrap reveal">
+        <div class="ti-hdr" onclick="toggleTi(this)">
+          <span class="ti-q">"We're a smaller firm. This feels like it's built for tier-1 banks."</span>
+          <span class="ti-icon">+</span>
+        </div>
+        <div class="ti-body">
+          This objection usually comes from firms spending $5M-$25M on market data annually, which is precisely the segment where the ROI of proper spend management is highest as a percentage of the budget. TRG Screen's 750-client base includes firms well below the tier-1 threshold. <strong>The counter here is a peer reference, not a feature list.</strong> "Actually, some of our highest-impact deployments have been at firms your size, because that's where the savings as a proportion of spend are most meaningful." Pair it with a case study from a comparable institution if one exists.
+        </div>
+      </div>
+
+      <div class="ti-wrap reveal">
+        <div class="ti-hdr" onclick="toggleTi(this)">
+          <span class="ti-q">"We're mid-contract on our existing data management tools."</span>
+          <span class="ti-icon">+</span>
+        </div>
+        <div class="ti-body">
+          Don't fight the contract timing. Use it. "That's actually a good moment to have this conversation, because the 90 days before your next renewal is when you need the most accurate picture of what you've consumed versus what you contracted. Running an audit now means you walk into that renewal with data instead of assumptions." <strong>Turn the contract cycle objection into a reason to start the conversation now.</strong> The goal of this call isn't to close a deal. It's to make sure they have what they need before their next negotiation.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- 04 COPY -->
+<section id="copy">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-num">Part 04</span>
+      <span class="sec-nm">Copy</span>
+    </div>
+
+    <!-- Copy 1: Homepage hero -->
+    <div class="cex-shell reveal">
+      <div class="cex-top">
+        <span class="cex-ch">Homepage Hero &nbsp;&#183;&nbsp; Rewrite</span>
+        <span class="cbadge hero">Hero Copy</span>
+      </div>
+      <div class="cex-body">
+        <div class="ched">750 financial institutions. $9.6 billion in subscription spend. One platform that finally makes it manageable.</div>
+        <div class="ctxt">
+          Subhead: The biggest banks spend over $500 million a year on market data. Most of them can't tell you exactly what they're paying for. TRG Screen gives you the full picture, across spend, usage, and compliance, so you can stop reconciling the past and start controlling what happens next.
+          <br><br>
+          CTA 1: See how it works &nbsp;/ &nbsp; CTA 2: Request a spend audit
+        </div>
+        <div class="cwhy"><strong>Why this works:</strong> Opens with a number that earns attention, not a category description that blends in. The $9.6B stat is real, verified, and immediately establishes scale. The second sentence names the problem before the product. "Request a spend audit" as a CTA is lower friction than "request a demo" because it frames the first interaction as value-delivery rather than a sales meeting.</div>
+      </div>
+    </div>
+
+    <!-- Copy 2: Crizit launch email -->
+    <div class="cex-shell reveal">
+      <div class="cex-top">
+        <span class="cex-ch">Client Email &nbsp;&#183;&nbsp; Crizit Capability Launch &nbsp;&#183;&nbsp; Existing Clients</span>
+        <span class="cbadge email">Launch Email</span>
+      </div>
+      <div class="cex-body">
+        <div class="ched">Your terminal spend is optimized. Is your reference data?</div>
+        <div class="ctxt">
+          Subject: The part of your market data budget that probably hasn't been audited yet
+          <br><br>
+          Hi [Name],
+          <br><br>
+          Most market data teams have gotten quite good at optimizing terminal costs over the last few years. Screens are tracked. Licences are reviewed. Renewals are negotiated with real data.
+          <br><br>
+          Reference data is a different story. The feeds flowing into your systems in the background, the ones powering pricing engines, risk models, and settlement workflows, tend to get renewed on autopilot. Not because nobody cares, but because nobody's had a clean way to see exactly what's being consumed versus what's been contracted.
+          <br><br>
+          We've been working on that. With the addition of Crizit's technology to the TRG Screen platform, we can now show you reference data consumption at a feed level, in real time, so you know before the invoice arrives whether you're over-provisioned.
+          <br><br>
+          If this is a live conversation for you heading into a renewal, I'd like to set up a call. No pitch, just a look at what the data shows.
+          <br><br>
+          [Signature]
+        </div>
+        <div class="cwhy"><strong>Why this works:</strong> Opens by validating what the reader has already done right (terminal optimization), then introduces the gap without making them feel bad about it. The Crizit technology is introduced as a solution to a named problem, not as a product announcement. The CTA is soft and positions the call as informational, which reduces the barrier to booking it. No "exciting new acquisition" language anywhere.</div>
+      </div>
+    </div>
+
+    <!-- Copy 3: Sales battlecard -->
+    <div class="cex-shell reveal">
+      <div class="cex-top">
+        <span class="cex-ch">Sales Enablement &nbsp;&#183;&nbsp; Objection Card &nbsp;&#183;&nbsp; "We use [competitor] already"</span>
+        <span class="cbadge sales">Sales Card</span>
+      </div>
+      <div class="cex-body">
+        <div class="ched">When they say "we already have a spend management tool"</div>
+        <div class="ctxt">
+          Don't push back. Ask one question: "Does it handle usage alongside spend, or just the spend side?" Most point solutions do one or the other. The ones that do both often don't handle compliance reporting or managed services. That question creates space without being combative.
+          <br><br>
+          If they say their current tool handles both: "Got it. What does your process look like when there's a discrepancy between what you've contracted and what shows up on the invoice?" Most teams have a manual intervention step somewhere. Find that step.
+          <br><br>
+          The key message, not to say out loud but to work toward: TRG Screen is the only vendor that handles spend, usage, compliance, and managed services from one provider. The competitive advantage is breadth and the 25+ years of domain depth that makes that breadth trustworthy. That's not a feature comparison conversation. That's a "how much of your time do you want to spend managing multiple vendors" conversation.
+        </div>
+        <div class="cwhy"><strong>Why it works:</strong> Most AEs lose competitive deals by defending product capabilities directly. The "does it handle usage alongside spend?" question is genuinely diagnostic, not rhetorical. It either surfaces a gap or leads to a conversation about process, which is where TRG Screen's managed services story naturally enters. The goal of this card is to get the prospect talking about their own workflow, not evaluating feature checklists.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- 05 OTHER WORK -->
+<section id="work" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-num">Part 05</span>
+      <span class="sec-nm">Other Relevant Work</span>
+    </div>
+
+    <div class="wgrid reveal">
+
+      <a href="https://bhanuexcalibur.github.io/Boundless-PoW/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">B2B Messaging &nbsp;&#183;&nbsp; Compliance / Enterprise SaaS</div>
+        <h4>Boundless &ndash; Messaging Audit</h4>
+        <p>Multi-buyer messaging rewrite for a compliance infrastructure product with a long sales cycle and a fragmented buying committee. Same challenge TRG Screen faces: one product, three different people who need to hear three different things before they'll move.</p>
+        <span class="warr">&#8594;</span>
+      </a>
+
+      <a href="https://bhanuexcalibur.github.io/Deltek/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">Full PoW &nbsp;&#183;&nbsp; Enterprise SaaS / Professional Services</div>
+        <h4>Deltek &ndash; Proof of Work</h4>
+        <p>Full PMM PoW for an enterprise SaaS company serving professional services firms, including messaging audit, GTM brief, and sales enablement. The closest match to TRG Screen's buyer profile and sales motion in this portfolio.</p>
+        <span class="warr">&#8594;</span>
+      </a>
+
+      <a href="https://bhanuexcalibur.github.io/Canonical/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">Positioning &nbsp;&#183;&nbsp; Technical B2B</div>
+        <h4>Canonical &ndash; Proof of Work</h4>
+        <p>Positioning and messaging work for a deeply technical B2B product where the buyers are not the users. Strong parallel to TRG Screen's challenge of selling to finance leadership while the platform is used by market data operations teams.</p>
+        <span class="warr">&#8594;</span>
+      </a>
+
+      <a href="https://bhanuexcalibur.github.io/RelayFi_PoW/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">Full PoW &nbsp;&#183;&nbsp; B2B Fintech</div>
+        <h4>RelayFi &ndash; Proof of Work</h4>
+        <p>Full product marketing PoW covering messaging audit, GTM brief, buyer persona mapping, and copy for multiple segments. The structure of this page mirrors the Relay work most closely in terms of depth and approach.</p>
+        <span class="warr">&#8594;</span>
+      </a>
+
+      <a href="https://bhanuexcalibur.github.io/Veeva/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">PMM &nbsp;&#183;&nbsp; Regulated Industry / SaaS</div>
+        <h4>Veeva &ndash; Proof of Work</h4>
+        <p>Product marketing work for a regulated-industry SaaS platform with a complex buying committee and a mix of technical and non-technical stakeholders. Compliance and audit requirements feature heavily, as they do in TRG Screen's context.</p>
+        <span class="warr">&#8594;</span>
+      </a>
+
+      <a href="https://bhanuexcalibur.github.io/smallcase/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">GTM &nbsp;&#183;&nbsp; Financial Services</div>
+        <h4>Smallcase &ndash; Proof of Work</h4>
+        <p>GTM and messaging work for a financial services product where the core challenge was making a technically complex offering legible to a non-technical buyer. The translation problem, from infrastructure capability to business outcome, is the same one TRG Screen faces.</p>
+        <span class="warr">&#8594;</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- SIGNATURE -->
+<div class="wrap">
+  <div class="sig reveal">
+    <div>
+      <div class="sig-name">Bhanu <span>Kumar</span></div>
+      <div class="sig-det">
+        <a href="mailto:bhanukumar0902@gmail.com">bhanukumar0902@gmail.com</a><br>
+        <a href="https://linkedin.com/in/bhanuexcalibur" target="_blank" rel="noopener">linkedin.com/in/bhanuexcalibur</a> &nbsp;&#183;&nbsp;
+        <a href="https://x.com/excaliburbhanu" target="_blank" rel="noopener">@excaliburbhanu</a>
+      </div>
+    </div>
+    <div class="sig-btns">
+      <a class="sbtn pri" href="mailto:bhanukumar0902@gmail.com">
+        Get in touch
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M7.5 3.5l3 3-3 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="sbtn ghost" href="https://drive.google.com/file/d/1-OxnRitrF_vvDfgHeD09Vw2bkigMSPU8/view" target="_blank" rel="noopener">Full resume &#8594;</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Reading progress bar
+window.addEventListener('scroll', function() {
+  var el = document.getElementById('rbar');
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  el.style.width = pct + '%';
+});
+
+function toggleMob() {
+  document.getElementById('mob').classList.toggle('open');
+  document.getElementById('hbg').classList.toggle('open');
+}
+function closeMob() {
+  document.getElementById('mob').classList.remove('open');
+  document.getElementById('hbg').classList.remove('open');
+}
+
+// Messaging audit tabs
+function swTab(id, btn) {
+  document.querySelectorAll('.apanel').forEach(function(p){ p.classList.remove('on'); });
+  document.querySelectorAll('.tbtn').forEach(function(b){ b.classList.remove('on'); });
+  document.getElementById('ap-' + id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// Persona switcher
+var personas = {
+  datadir: {
+    tag:  'Buyer: Head of Market Data',
+    hed:  '"You\'re expected to advise on sourcing, challenge demand, and prevent spend. That\'s impossible when you\'re still processing invoices."',
+    body: 'The Head of Market Data is under pressure from two directions at once. From their CFO, they\'re being asked to control costs on a budget that grows every year as data consumption increases. From their trading desks and research teams, they\'re being asked to provision more data faster and with less friction. The work that sits between those two pressures, invoice reconciliation, vendor management, exchange declarations, is real work that takes real time. <strong>TRG Screen\'s pitch to this person isn\'t "buy our software." It\'s "here\'s how you stop being the person who processes things and become the person who decides things."</strong> The managed services conversation fits here, but only once the platform conversation has established that TRG Screen already understands their specific spend landscape. Lead with the audit. The managed services upsell follows naturally.'
+  },
+  cfo: {
+    tag:  'Buyer: CFO / Finance Lead',
+    hed:  '"Market data is one of your top-five direct costs. Most firms can\'t reconcile what they\'re paying against what they contracted."',
+    body: 'The CFO sees market data spend as a line item that consistently comes in above budget without a clear explanation of why. They\'re not interested in a platform tour. They want to know two things: what is this costing us now that we shouldn\'t be paying, and what does a credible fix look like? <strong>The entry point for this buyer is a cost visibility conversation, not a product conversation.</strong> Show them the industry stat (top banks spend $500M+ annually) and follow it immediately with the question: "Do you know what percentage of that is being actively consumed versus contracted?" Most CFOs don\'t have that number. TRG Screen can provide it. That\'s the open door. The close happens when you can show a comparable institution\'s audit results, even anonymised.'
+  },
+  cto: {
+    tag:  'Buyer: CTO / Head of Data Infrastructure',
+    hed:  '"Your reference data feeds are running 24/7. Do you know which ones nobody is actually pulling from?"',
+    body: 'The technology buyer at a financial institution is often the least-targeted persona in TRG Screen\'s current messaging, partly because the platform\'s value has historically been framed as a finance and operations story. But the Crizit acquisition changes that. Reference data optimization is a data infrastructure conversation. The CTO cares about redundant API calls, stale cache requests, over-provisioned feeds, and the engineering overhead of maintaining data pipelines that nobody has audited in two years. <strong>Crizit\'s real-time optimization capability speaks directly to this person\'s world in a way that "subscription spend management" never has.</strong> This is a new entry point for TRG Screen into a buying committee that has previously been underserved. The GTM motion here is different: start with a technical demonstration, not a business case.'
+  },
+  compliance: {
+    tag:  'Buyer: Compliance Officer / Legal',
+    hed:  '"Exchange compliance reporting isn\'t optional. The question is whether you\'re doing it manually or automatically."',
+    body: 'Compliance officers at financial institutions have a very specific relationship with market data: they need to know that every data feed being consumed is covered by an appropriate licence, that exchange declarations are accurate and on time, and that there\'s an audit trail if a regulator asks. <strong>TRG Screen\'s compliance reporting capability is one of the most defensible parts of its value proposition for this buyer, because the alternative is a manual process that introduces human error into a zero-tolerance environment.</strong> The messaging for this persona should lead with risk, not efficiency. "A missed exchange declaration has a known consequence. We make sure that consequence doesn\'t happen." is a cleaner entry point than anything that talks about dashboard visibility or spend optimization. The pitch lands differently when the word "manual" is framed as a liability rather than a cost.'
+  }
+};
+
+function swPersona(type, btn) {
+  document.querySelectorAll('.ptab').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  var d = personas[type];
+  document.getElementById('p-tag').textContent = d.tag;
+  document.getElementById('p-hed').textContent = d.hed;
+  document.getElementById('p-body').innerHTML  = d.body;
+  document.getElementById('p-prompt').style.display = 'none';
+  var out = document.getElementById('p-output');
+  out.classList.remove('on');
+  void out.offsetWidth;
+  out.classList.add('on');
+}
+
+// Toggle insights
+function toggleTi(hdr) {
+  var wrap = hdr.parentElement;
+  wrap.classList.toggle('open');
+}
+
+// Scroll reveal
+if ('IntersectionObserver' in window) {
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+}
+window.addEventListener('load', function(){
+  document.querySelectorAll('.reveal').forEach(function(el){
+    var rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) { el.classList.add('in'); }
+  });
+});
+setTimeout(function(){
+  document.querySelectorAll('.reveal').forEach(function(el){
+    var rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) { el.classList.add('in'); }
+  });
+}, 200);
+</script>
+</body>
+</html>
